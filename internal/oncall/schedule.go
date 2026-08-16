@@ -35,7 +35,10 @@ func Build(req Request) (*Schedule, error) {
 	}
 
 	entries := make([]ScheduleEntry, 0, daysBetween(start, end)+1)
-	fairness := make(map[string]int)
+	fairness := make(map[string]int, n)
+	for _, eng := range req.Roster {
+		fairness[eng] = 0
+	}
 	pointer := req.StartIndex
 
 	for d := start; !d.After(end); d = d.AddDate(0, 0, 1) {
